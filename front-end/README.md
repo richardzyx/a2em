@@ -12,6 +12,6 @@ Installation requirements:
 
 5. node app.js
 
-6. Visit http://localhost:3000/
+6. Visit http://localhost:8000/
 
 :D
