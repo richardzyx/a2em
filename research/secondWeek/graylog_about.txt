@@ -1,0 +1,15 @@
+What is a log?
+A log is an append-only, totally-ordered sequence of records ordered by time. They're important because they recor what happened and when it happened. This is very important for distributed data systems because these logs can be reviewed and analyzed to find the roots of their problems. Something to clarify is that many of us programmers as CS students have come across are unstructured error messages that would be written out by syslog by an application failing or something. These error messages are what log management platforms recognize, analyze, and restructure so that they can be readable.
+
+Graylog is a log management platform for almost any source and is open source, written in Java. So in our case, we would integrate Graylog with our Digital Ocean server. Graylog also markets its scalability, however I don't think large amounts of scalability will be required for our purposes as our client has said that the highest rate they would get is around 10 donations per day. Graylog's architecture (for enterprise-based systems) include 3 tiers: Elasticsearch Node(s), Graylog Server(s), and Graylog Web Interface.
+
+The clientside of Graylog includes a UI that features the Graylog Collector, which forwards data from any log source. These log sources can be almost anything: syslog and plaintext are the most common ones that are supported. Graylog also has its own log format called GELF that lets you pre-structure and normalize messages before sending. The sending and receiving of messages is done by the open source technology Apache Kafka, which is a distributed log messaging service.
+
+Components that Graylog has used include MongoDB for metadata extraction (metadata is data that describes other data. Sor for example, if you're trying to describe a book, metadata would be stuff like author, title, year published, etc.) and Elasticsearch for log file storage and text search.
+
+SOURCES:
+http://kafka.apache.org/
+http://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying
+https://www.graylog.org/
+http://www.splunk.com/en_us/solutions/solution-areas/log-management.html
+http://www.infoworld.com/article/2885752/log-analysis/open-source-graylog-puts-splunk-on-notice.html
