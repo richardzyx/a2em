@@ -5,7 +5,12 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    var context = {
+        title: "A2Empowerment Dashboard",
+        pageTitle: "Dashboard",
+        pageSubtitle: "Info at a Glance"
+    };
+    res.render('main', context);
 });
 
 module.exports = router;
