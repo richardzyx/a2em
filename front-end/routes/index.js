@@ -3,7 +3,10 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('main.hbs');
+    var context = {
+        title: "A2Empowerment Dashboard"
+    };
+    res.render('main', context);
 });
 
 router.get('/data', function(req, res, next) {

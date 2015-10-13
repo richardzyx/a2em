@@ -15,3 +15,6 @@ Installation requirements:
 6. Visit http://localhost:3000/
 
 :D
+
+The front end project uses the theme from StartBootstrap under the Apache 2.0 License: 
+http://startbootstrap.com/template-overviews/sb-admin/
