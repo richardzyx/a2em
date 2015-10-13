@@ -10,8 +10,8 @@ Installation requirements:
 
 4. npm install -g requirements.txt
 
-5. node app.js
+5. Run: DEBUG=myapp npm start (OS X/Linux)
 
-6. Visit http://localhost:8000/
+6. Visit http://localhost:3000/
 
 :D
