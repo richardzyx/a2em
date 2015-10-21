@@ -1,7 +1,7 @@
 #intellij config
 .idea
 
-#ds_store
+#mac file
 .DS_Store
 
 #npm dependency
