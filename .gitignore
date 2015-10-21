@@ -1,6 +1,9 @@
 #intellij config
 .idea
 
+#ds_store
+.DS_Store
+
 #npm dependency
 node_modules
 
