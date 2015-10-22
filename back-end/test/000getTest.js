@@ -20,7 +20,7 @@ describe("getTest",function(){
     it("should return two users' information",function(){
         var testdata1={
             "body":{"user":"test1","group":"0"},//JSON format with quotes on every term
-            "result":{"result":0,"message":"Success","data":[{"id":3,"name":"bad guy","password":"iambad","user_group":1,"register_time":"2015-10-22T03:59:28.000Z"},
+            "result":{"result":0,"message":"Success","data":[{"id":3,"name":"bad guy","password":"iamrealbad","user_group":1,"register_time":"2015-10-22T03:59:28.000Z"},
                                 {"id":4,"name":"bad guy 2","password":"iambad","user_group":1,"register_time":"2015-10-22T03:59:28.000Z"}]}
         };
         return expect(httpUtil.sendHttpAndParseJSON('POST',url1,headers,testdata1.body,encoding)).to.eventually.eql(testdata1.result);
