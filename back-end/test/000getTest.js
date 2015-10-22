@@ -14,31 +14,23 @@ describe("getTest",function(){
     var headers = {
         "content-type": "application/json"
     };
-    var url1 = "https://"+config.ip+"/api/getTest/query";
+    var url1 = "http://"+config.ip+"/api/gettest/query";
     var encoding = "utf8";
 
-    it("should have a normal return with two parameters",function(){
+    it("should return two users' information",function(){
         var testdata1={
-            "body":{"name":"test","phone":"13401171072"},
-            "result":{"result":0,"message":"请求成功","matches":{"countNum":1,"organNum":1,"earlyDate":5}}
+            "body":{"user":"test1","group":"0"},//JSON format with quotes on every term
+            "result":{"result":0,"message":"Success","data":[{"id":3,"name":"bad guy","password":"iambad","user_group":1,"register_time":"2015-10-22T03:59:28.000Z"},
+                                {"id":4,"name":"bad guy 2","password":"iambad","user_group":1,"register_time":"2015-10-22T03:59:28.000Z"}]}
         };
-        return expect(httpUtil.sendHttpsAndParseJSON('POST',url1,headers,testdata1.body,encoding)).to.eventually.eql(testdata1.result);
-    });
-    //一个参数正常返回
-    it("should have a normal return with one parameter",function(){
-        var testdata2={
-            "body":{"phone":"13401171072"},
-            "result":{"result":0,"message":"请求成功","matches":{"countNum":3,"organNum":1,"earlyDate":5}}
-        };
-        return expect(httpUtil.sendHttpsAndParseJSON('POST',url1,headers,testdata2.body,encoding)).to.eventually.eql(testdata2.result);
-    });
-    //无参数正常返回
-    it.skip("should have a normal return with zero parameter",function(){
-        var testdata3={
-            "body":{},
-            "result":{"result":2,"message":"查询信息不足"}
-        };
-        return expect(httpUtil.sendHttpsAndParseJSON('POST',url1,headers,testdata3.body,encoding)).to.eventually.eql(testdata3.result);
+        return expect(httpUtil.sendHttpAndParseJSON('POST',url1,headers,testdata1.body,encoding)).to.eventually.eql(testdata1.result);
     });
 
+    it("should require two parameters",function(){
+        var testdata1={
+            "body":{"group":"1"},
+            "result":{result:4,message:"Require two parameters"}//This is a JavaScript object
+        };
+        return expect(httpUtil.sendHttpAndParseJSON('POST',url1,headers,testdata1.body,encoding)).to.eventually.eql(testdata1.result);
+    });
 });

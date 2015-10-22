@@ -39,6 +39,37 @@ exports.sendHttp = function(method, url, headers, body, encoding) {
         req.end();
     });
 };
+
+exports.sendHttpAndParseJSON = function(method, url, headers, body, encoding) {
+    return new Promise(function(resolve, reject) {
+        var options = URL.parse(url);
+        options.method = method;
+        options.headers = headers;
+        var req = http.request(options, function (res) {
+            res.setEncoding(encoding);
+            var chunk = "";
+            res.on('data', function (d) {
+                chunk += d;
+            });
+            res.on('end', function () {
+                try{
+                    resolve(JSON.parse(chunk));
+                }
+                catch(err){
+                    reject(err);
+                }
+            });
+        });
+        if((typeof body)==="object"){
+            req.write(JSON.stringify(body));
+        }
+        else{
+            req.write(body);//string
+        }
+        req.end();
+    });
+};
+
 exports.sendHttps = function(method, url, headers, body, encoding) {
     return new Promise(function(resolve, reject) {
         var options = URL.parse(url);

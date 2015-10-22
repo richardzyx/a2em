@@ -1,12 +1,13 @@
+"use strict";
 var express = require('express');
 var router = express.Router();
 //var _ = require('underscore');
 var getTest = require('./api/getTest');
 
-//router.get('/', function(req, res, next) {
-//  res.render('index', { title: 'Express' });
-//});
+router.use('/', function(req, res, next) {
+      next();
+});
 
-router.use('/getTestTable', getTest);
+router.use('/gettest', getTest);
 
 module.exports = router;
