@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql_service = require('../../lib/service/getTest/mysql_service');
+var recordQuery = require('../../lib/util/recordQuery');
 
 // 1. Check for integrity i.e. user authority, parameters numbers
 // 2. Take out the parameters from the req and pack into one object
@@ -35,10 +36,10 @@ router.use('/', function(req, res, next) {
 
 // Query for all the user with group not the given number
 router.post('/query', function(req, res, next) {
+    var options = [];
     Promise.resolve().then(
         function onFulfilled() {
             var group = req.body.group;
-            var options = [];
             options.push(group);
             return mysql_service.query_allUsers(options);
         }
@@ -50,9 +51,16 @@ router.post('/query', function(req, res, next) {
                 message: "Success",
                 data: results.data
             };
-            //apiService.recordQuery(req.body.username,"historypri",0).catch(function(err){
-            //    logger.error(err);
-            //});
+
+            var service = recordQuery.getServiceName(req.originalUrl);
+            var param = options.join();
+            var result = JSON.stringify(ret.data);//since it is a log for successful queries only, we only need data field
+            var user_id = 1;//Your task will be write a helper function to get user_id from username, file is ready in util
+            var timestamp_second = Date.now() / 1000; //give you the seconds since midnight, 1 Jan 1970
+            recordQuery.record(service, param, result, user_id, timestamp_second).catch(function(err){
+                console.error(err);
+            });
+
             return ret;
         }
     ).catch(function(err){
@@ -60,7 +68,7 @@ router.post('/query', function(req, res, next) {
                 "result":0,
                 "message":""
             };
-            logger.error(err.stack);
+            console.error(err.stack);
             if(err.result!==undefined)
             {
                 ret.result=err.result;
