@@ -11,7 +11,7 @@ exports.query_allUsers = function(options){
             return new Promise(function(resolve,reject){
                 mysql_a2em.query(sql, options, function (err, results) {
                     if (err) {
-                        logger.error({
+                        console.error({
                             input : data,
                             error : err
                         });

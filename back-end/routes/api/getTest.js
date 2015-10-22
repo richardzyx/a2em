@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router();
 var mysql_service = require('../../lib/service/getTest/mysql_service');
 var recordQuery = require('../../lib/util/recordQuery');
+//var userTable = require('../../lib/util/userTable');
 
 // 1. Check for integrity i.e. user authority, parameters numbers
 // 2. Take out the parameters from the req and pack into one object
@@ -55,7 +56,7 @@ router.post('/query', function(req, res, next) {
             var service = recordQuery.getServiceName(req.originalUrl);
             var param = options.join();
             var result = JSON.stringify(ret.data);//since it is a log for successful queries only, we only need data field
-            var user_id = 1;//Your task will be write a helper function to get user_id from username, file is ready in util
+            var user_id = 1;//Your task will be write a helper function to get user_id from username, file is ready in util ******
             var timestamp_second = Date.now() / 1000; //give you the seconds since midnight, 1 Jan 1970
             recordQuery.record(service, param, result, user_id, timestamp_second).catch(function(err){
                 console.error(err);

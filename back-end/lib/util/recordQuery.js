@@ -24,7 +24,7 @@ exports.record = function (service, param, result, user_id, timestamp_second){
     return new Promise(function(resolve,reject){
         mysql_a2em.query(sql, options, function (err, results) {
             if (err) {
-                logger.error({
+                console.error({
                     input : data,
                     error : err
                 });
