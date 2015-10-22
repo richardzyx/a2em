@@ -1,6 +1,13 @@
 var mysql={
-	a2em : {
+	local : {
 		host : '45.55.233.181',
+		user : 'jumbo',
+		password : 'a2em2015',
+		database : 'a2em',
+		connectionLimit:100
+	},
+	test : {
+		host : 'localhost',
 		user : 'jumbo',
 		password : 'a2em2015',
 		database : 'a2em',

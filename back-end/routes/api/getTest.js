@@ -44,7 +44,7 @@ router.post('/query', function(req, res, next) {
         }
     ).then(
         function onFulfilled(results) {
-            console.log(results);
+            //console.log(results); Uncomment for sseeing the actual results
             var ret = {
                 result: 0,
                 message: "Success",

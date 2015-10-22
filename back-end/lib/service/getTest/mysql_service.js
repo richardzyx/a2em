@@ -7,7 +7,6 @@ var mysql_a2em = require('../../db/mysql_db').a2em;
 exports.query_allUsers = function(options){
     return Promise.resolve().then(
         function onFulfilled(){
-            console.log(options);
             var sql = "select * from user_info where user_group !=?";
             return new Promise(function(resolve,reject){
                 mysql_a2em.query(sql, options, function (err, results) {
@@ -45,7 +44,7 @@ exports.query_allUsers = function(options){
             }
         }
     }).then(function(result){
-        console.log("response successfully");
+        //console.log("response successfully"); Uncomment for debugging
         return result;
     });
 };
