@@ -1,0 +1,26 @@
+Getting started with Sengrid is very, very easy. You can sign up for a free account which allows you to send 12k emails/month, 400 emails/day maximum. On signup, you'll generate your own api key and your api username, which is what you will fill in when you import sendgrid. So onced you're signed up, you just fill in the method parameters as shown below.
+
+This application can be applied to our project because we can send out emails to those who have paid for payment receipts, for example. Also, we can perhaps store each donator's email into a giant dictionary, for example, and then parse that dictionary so that our client can create an e-list with all the emails.
+
+To actually get this code to work, you'd have to run it on a node.js initiated server (can be localhost) with a properly functioning router. this can be done by using express.js, for example:
+
+var express = require('express');
+var router = express.Router();
+
+router.get('/', function(req, res){
+
+});
+
+And then you can copy/paste the code sample below into the router and it should work, assuming other setup has been done properly.
+
+node.js example on how to send an email with Sendgrid:
+
+var sendgrid = require("sendgrid")(api_user, api_key);
+var email = new sendgrid.Email();
+
+email.addTo("sendemailto@here.com");
+email.setFrom("noreply@whatever.com");
+email.setSubject("Sending with SendGrid is Fun");
+email.setHtml("and easy to do anywhere, even with Node.js");
+
+sendgrid.send(email);

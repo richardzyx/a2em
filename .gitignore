@@ -1,6 +1,9 @@
 #intellij config
 .idea
 
+#mac file
+.DS_Store
+
 #npm dependency
 node_modules
 
