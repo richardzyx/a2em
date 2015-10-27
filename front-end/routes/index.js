@@ -20,7 +20,8 @@ router.get("/login", function (req, res) {
         loginTitle: "A2Empowerment Login",
         email: "Admin email",
         remember: "Remember this user?",
-        signIn: "Sign In"
+        signIn: "Sign In",
+        layout: "login"
     };
     res.render('login', context);
    // res.sendfile("../startbootstrap-sb-admin-1.0.3/login.html" /*{root: __dirname}*/);
