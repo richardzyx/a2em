@@ -13,4 +13,16 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
+router.get("/login", function (req, res) {
+
+    var context = {
+        loginTitle: "A2Empowerment Login",
+        email: "Admin email",
+        remember: "Remember this user?",
+        signIn: "Sign In"
+    };
+    res.render('login', context);
+   // res.sendfile("../startbootstrap-sb-admin-1.0.3/login.html" /*{root: __dirname}*/);
+});
+
 module.exports = router;
