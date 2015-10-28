@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var request = require('request');
+//var request = require('request');
 
 var debug = true;
 var backendURL = '/api/get';
@@ -10,6 +10,7 @@ var backendURL = '/api/get';
 
 router.get('/', function(req, res, next) {
 
+    //set sticker values
     var donationsToday, donationsThisWeek, amountToday, amountThisWeek = 0;
     if (debug) {
         donationsToday = 4;
@@ -19,7 +20,7 @@ router.get('/', function(req, res, next) {
     } else {
         request(backendURL, function (error, response, body) {
           if (!error && response.statusCode == 200) {
-            console.log(body) // Show the HTML for the Google homepage.
+            console.log(body); // Show the HTML for the Google homepage.
             for (var i = 0; i < body.donations.length; i++) {
                 var today = new Date();
                 if (body.donations[i].date == today) {
@@ -48,7 +49,7 @@ router.get('/', function(req, res, next) {
         donationsToday: donationsToday,
         donationsThisWeek: donationsThisWeek,
         amountToday: amountToday,
-        amountThisWeek, amountThisWeek,
+        amountThisWeek: amountThisWeek
     };
     res.render('main', context);
 });
@@ -56,13 +57,13 @@ router.get('/', function(req, res, next) {
 router.get("/login", function (req, res) {
 
     var context = {
+        layout: "login.hbs",
         loginTitle: "A2Empowerment Login",
         email: "Admin email",
         remember: "Remember this user?",
-        signIn: "Sign In",
-        layout: "login"
+        signIn: "Sign In"
     };
-    res.render('login', context);
+    res.render('login.hbs', context);
    // res.sendfile("../startbootstrap-sb-admin-1.0.3/login.html" /*{root: __dirname}*/);
 });
 
