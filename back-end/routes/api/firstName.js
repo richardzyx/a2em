@@ -1,5 +1,5 @@
 /**
- * Created by root on 10/21/15.
+ * Created by root on 10/29/15.
  */
 "use strict";
 var express = require('express');
@@ -17,7 +17,7 @@ var userTable = require('../../lib/util/userTable');
 router.use('/', function(req, res, next) {
     Promise.resolve().then(
         function onFulfilled() {
-            if (!req.body.user || !req.body.group) {// you may also check for user's authenticiation here
+            if (!req.body.user) {// you may also check for user's authenticiation here
                 res.json({
                     result: 4,
                     message: "Require two parameters"
@@ -30,7 +30,7 @@ router.use('/', function(req, res, next) {
             //logger.error(err);
             res.json({
                 result: 99,
-                message: "Unknown Error"
+                message: "BBBBBB Error"
             });
         });
 });
@@ -40,9 +40,9 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
     var options = [];
     Promise.resolve().then(
         function onFulfilled() {
-            var group = req.body.group;
+            var group = req.body.user;
             options.push(group);
-            return mysql_service.query_allUsers(options);
+            return userTable.name_to_id(options);
         }
     ).then(
         function onFulfilled(results) {
@@ -80,7 +80,7 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
             }else
             {
                 ret.result=99;
-                ret.message="Unknown Error";
+                ret.message="AAAAA Error";
             }
             return ret;
         }).then(function(results){

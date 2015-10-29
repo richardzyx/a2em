@@ -1,11 +1,20 @@
+//import libraries
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 //var logger = require('morgan');
+
+//these are node modules that import these from body-parser and cookie-parser
+//purpose of these are exactly what they sound like-- a json body parser and
+//cookie parser (probably for security purposes)
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//declare api location in server directory
 var api = require('./routes/api');
+
+//TEST CODE
+var api_test = require('./routes/api_test');
 
 var app = express();
 
@@ -22,6 +31,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
+
+//TEST CODE
+app.use('/api_test', api_test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
