@@ -4,7 +4,7 @@
 "use strict";
 var express = require('express');
 var router = express.Router();
-var mysql_service = require('../../lib/service/getTest/mysql_service');
+//var mysql_service = require('../../lib/service/getTest/mysql_service');
 var recordQuery = require('../../lib/util/recordQuery');
 var userTable = require('../../lib/util/userTable');
 
@@ -30,7 +30,7 @@ router.use('/', function(req, res, next) {
             //logger.error(err);
             res.json({
                 result: 99,
-                message: "BBBBBB Error"
+                message: "Unknown Error"
             });
         });
 });
@@ -40,8 +40,8 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
     var options = [];
     Promise.resolve().then(
         function onFulfilled() {
-            var group = req.body.user;
-            options.push(group);
+            var user = req.body.user;
+            options.push(user);
             return userTable.name_to_id(options);
         }
     ).then(
@@ -50,7 +50,7 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
             var ret = {
                 result: 0,
                 message: "Success",
-                data: results.data
+                data: results.data[0]
             };
 
             var service = recordQuery.getServiceName(req.originalUrl);
@@ -58,7 +58,7 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
             var result = JSON.stringify(ret.data);//since it is a log for successful queries only, we only need data field
 
             //Your task will be write a helper function to get user_id from username, file is ready in util ******
-            var user_id = userTable.name_to_id(req.body.user);
+            var user_id = ret.data.id;
 
             var timestamp_second = Date.now() / 1000; //give you the seconds since midnight, 1 Jan 1970
             recordQuery.record(service, param, result, user_id, timestamp_second).catch(function(err){
@@ -80,7 +80,7 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
             }else
             {
                 ret.result=99;
-                ret.message="AAAAA Error";
+                ret.message="Unknown Error";
             }
             return ret;
         }).then(function(results){

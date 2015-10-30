@@ -12,7 +12,6 @@ var bodyParser = require('body-parser');
 
 //declare api location in server directory
 var api = require('./routes/api');
-
 //TEST CODE
 var api_test = require('./routes/api_test');
 
@@ -31,7 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
-
 //TEST CODE
 app.use('/api_test', api_test);
 
