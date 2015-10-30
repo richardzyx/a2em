@@ -42,7 +42,7 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
         function onFulfilled() {
             var user = req.body.user;
             options.push(user);
-            return userTable.name_to_id_pro(options);
+            return userTable.name_to_id(options);
         }
     ).then(
         function onFulfilled(results) {

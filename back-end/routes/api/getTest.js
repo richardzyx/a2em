@@ -46,7 +46,7 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
         }
     ).then(
         function onFulfilled(results) {
-            console.log(results); //Uncomment for seeing the actual results
+            //console.log(results); //Uncomment for seeing the actual results
             var ret = {
                 result: 0,
                 message: "Success",
