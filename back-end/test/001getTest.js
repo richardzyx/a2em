@@ -10,7 +10,7 @@ var httpUtil = require('../lib/util/httpUtil');
 var config = require('./config');
 
 
-describe("firstName",function(){
+describe.skip("firstName",function(){
     var headers = {
         "content-type": "application/json"
     };
