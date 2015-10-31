@@ -69,10 +69,11 @@ router.get('/', function(req, res, next) {
                 // my code follows up until };
                 for (var j = 0; j < 7; j++) {
                     if (body.donations[i].date == today - j) {
-                        week[j].amount += body.donations[i].date;                    }            
+                        week[j].amount += body.donations[i].date;
+                    }
                         week[j].donations++;
-                };
-            };
+                }
+            }
 
           } else {
             console.log('error');
@@ -83,7 +84,7 @@ router.get('/', function(req, res, next) {
     var today = new Date();
     for (var i = 0; i < week.length; i++) {
         week[i].day = today - 7 + i;
-    };
+    }
 
     var context = {
         layout: 'dashboard',
@@ -99,6 +100,7 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
+// Login process ====================================
 router.get("/login", function (req, res) {
 
     var context = {
@@ -108,9 +110,24 @@ router.get("/login", function (req, res) {
         remember: "Remember this user?",
         signIn: "Sign In"
     };
+
     res.render('login.hbs', context);
-   // res.sendfile("../startbootstrap-sb-admin-1.0.3/login.html" /*{root: __dirname}*/);
 });
+
+
+router.post('/login', function (req, res) {
+
+        //password auth goes here
+});
+
+
+function isLoggedIn(req, res, next) {
+
+    if (req.isAuthenticated())
+        return next();
+
+    res.redirect("/login");
+}
 
 module.exports = router;
 

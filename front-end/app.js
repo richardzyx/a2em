@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
+var passport = require('passport');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,6 +22,12 @@ app.engine('hbs', expressHbs({
                     })); //all partials are registered
 
 app.set('view engine', 'hbs');
+
+
+//login session config
+app.use(session({secret: "you're not my supervisor"}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // uncomment after placing your favicon in /public
