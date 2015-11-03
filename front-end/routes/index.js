@@ -124,7 +124,7 @@ router.get('/profile/:id?', function (req, res) {
 
         donations.push(donation1);
     } else {
-        request(backendURL + 'person', function(error, response, body) {
+        request(backendURL + 'person' + req.param.id, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 var donation1 = {};
                 donation1.amount = body.amount;
