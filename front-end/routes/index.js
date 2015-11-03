@@ -10,7 +10,11 @@ var backendURL = '/api/get';
 
 router.get('/', function(req, res, next) {
 
-    //set sticker values
+
+    //enforce session
+    isLoggedIn(req, res, next);
+
+//set sticker values
     var donationsToday, donationsThisWeek, amountToday, amountThisWeek = 0;
     var week = [];
     if (debug) {
@@ -100,7 +104,7 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
-// Login process ====================================
+// Login process ========================================
 router.get("/login", function (req, res) {
 
     var context = {
@@ -118,6 +122,14 @@ router.get("/login", function (req, res) {
 router.post('/login', function (req, res) {
 
         //password auth goes here
+});
+
+
+//should end session and serve up login form
+router.get('/logout', function (req, res) {
+
+    req.logout();
+    res.redirect('/login');
 });
 
 
