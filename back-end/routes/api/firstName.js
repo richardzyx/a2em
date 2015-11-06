@@ -1,10 +1,10 @@
 /**
- * Created by root on 10/21/15.
+ * Created by root on 10/29/15.
  */
 "use strict";
 var express = require('express');
 var router = express.Router();
-var mysql_service = require('../../lib/service/getTest/mysql_service');
+//var mysql_service = require('../../lib/service/getTest/mysql_service');
 var recordQuery = require('../../lib/util/recordQuery');
 var userTable = require('../../lib/util/userTable');
 
@@ -17,7 +17,7 @@ var userTable = require('../../lib/util/userTable');
 router.use('/', function(req, res, next) {
     Promise.resolve().then(
         function onFulfilled() {
-            if (!req.body.user || !req.body.group) {// you may also check for user's authenticiation here
+            if (!req.body.user) {// you may also check for user's authenticiation here
                 res.json({
                     result: 4,
                     message: "Require two parameters"
@@ -40,24 +40,25 @@ router.post('/query', function(req, res, next) {    //pass mysql_Service the lis
     var options = [];
     Promise.resolve().then(
         function onFulfilled() {
-            var group = req.body.group;
-            options.push(group);
-            return Promise.all([mysql_service.query_allUsers(options), userTable.name_to_id(req.body.user)]);//TODO: Try tell me WTF is this
+            var user = req.body.user;
+            options.push(user);
+            return userTable.name_to_id(options);
         }
     ).then(
         function onFulfilled(results) {
-            //console.log(results); //Uncomment for seeing the actual results
+            //console.log(results); Uncomment for seeing the actual results
             var ret = {
                 result: 0,
                 message: "Success",
-                data: results[0].data
+                data: results.data[0]
             };
 
             var service = recordQuery.getServiceName(req.originalUrl);
             var param = options.join();
             var result = JSON.stringify(ret.data);//since it is a log for successful queries only, we only need data field
 
-            var user_id = results[1].data[0].id;//TODO: Try tell me WTF is this
+            //Your task will be write a helper function to get user_id from username, file is ready in util ******
+            var user_id = ret.data.id;
 
             var timestamp_second = Date.now() / 1000; //give you the seconds since midnight, 1 Jan 1970
             recordQuery.record(service, param, result, user_id, timestamp_second).catch(function(err){

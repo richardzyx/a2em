@@ -6,7 +6,8 @@ var mysql_a2em = require('../db/mysql_db').a2em;
 
 //Update your service here as a checklist
 var service_map = {
-    "/api/gettest/query": "getTest"
+    "/api/gettest/query": "getTest",
+    "/api_test/lastname/firstname/query": "nolantest"
 };
 
 exports.getServiceName = function (url) {
@@ -25,7 +26,7 @@ exports.record = function (service, param, result, user_id, timestamp_second){
         mysql_a2em.query(sql, options, function (err, results) {
             if (err) {
                 console.error({
-                    input : data,
+                    input : options,
                     error : err
                 });
                 reject({
