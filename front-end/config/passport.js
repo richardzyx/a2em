@@ -4,47 +4,47 @@
 
 var bcrypt = require('bcrypt');
 
-//var localStrategy = require('passport-local');
-//var oAuthStrategy = require('passport-oauth');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('../models/users');
 
 
+module.exports = function (passport) {
 
-/* Sql scheme expectations:
-
-    {
-        username:
-        pass TEX
-        token CHAR (maybe INTEGER)
-
-    };
-
-    - The password needs to be stored as a string since we are storing hashed values.
-    - When not in a live session, the user's token will be stored as nil. Otherwise, it will maintain a value
-      and check for that value with every request for data.
- */
-
-var saltLength = 10;
-
-//This is for password STORAGE
-function bcryptHash (pass, callback) {
-
-    bcrypt.genSalt(saltLength, function (err, salt) {
-
-        if (!err)
-            bcrypt.hash(pass, salt, callback);
+    passport.serializeUser(function (user, done) {
+        done(null, user.id);
     });
-}
 
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, function(err, user){
+            done(err, user);
+        });
+    });
 
+    //authentication process =================================================
+    passport.use('local-login', new LocalStrategy ({
 
-bcryptHash('password', function (err, hash) {
+        passReqToCallback: true
+    },
+    function (req, username, password, done) {
 
-    bcrypt.compare('password', hash, function (err, res) {
+        //query for password with username.
+        User.findOne({'username': username}, function(err, user) {
 
-        if (!err) {
-            if (res)
-                console.log("yoyoyoyoyoyo");
-        }
-    })
-});
+            if (err)
+                done(err);
+            if (!user)
+                done(null, false);
+            // asynchronous password comparison
+            bcrypt.compare(password, user.password, function (err, res) {
 
+                if (!err) {
+                    if (!res)
+                        done(null, false);
+                    else
+                        done(null, user);
+                }
+            });
+        });
+    }));
+
+};

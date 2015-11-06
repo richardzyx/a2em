@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 //var request = require('request');
 
@@ -12,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 
     //enforce session
-    isLoggedIn(req, res, next);
+   //isLoggedIn(req, res, next);
 
 //set sticker values
     var donationsToday, donationsThisWeek, amountToday, amountThisWeek = 0;
@@ -56,6 +57,7 @@ router.get('/', function(req, res, next) {
 
 
     } else {
+        //change backend url to specific query
         request(backendURL, function (error, response, body) {
           if (!error && response.statusCode == 200) {
             console.log(body); // Show the HTML for the Google homepage.
@@ -104,7 +106,63 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
-// Login process ========================================
+
+router.get('/profile/:id?', function (req, res) {
+    console.log(req.params);
+    //localhost:3000/profile/15
+
+    //donation fields: amount, time, date, flag
+    var address, zip, email, first_name, last_name;
+    var donations = [];
+
+    if (debug) {
+        address = "This St., This place";
+        zip = "12345";
+        email = "bob@hello.com";
+        first_name = "John";
+        last_name = 'Smith';
+        
+        var donation1 = {};
+        donation1.amount = 100;
+        var now = new Date();
+        donation1.date = now.toDateString();
+        donation1.time = now.toLocaleTimeString();
+        donation1.flag = "YO";
+
+        donations.push(donation1);
+    } else {
+        request(backendURL + 'person' + req.param.id, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var donation1 = {};
+                donation1.amount = body.amount;
+                donation1.time = body.time;
+                donation1.date = body.date;
+                donation.flag = body.flag;
+
+                donations.push(donation1);
+            }
+        });
+    }
+
+    var fullname = first_name + ' ' + last_name;
+
+    var context = {
+        layout: 'profile',
+        title: "Donor Profile",
+        pageTitle: fullname,
+        personAddress: address,
+        personZip: zip,
+        personEmail: email,
+        personName: fullname,
+        personDonations: donations
+
+    };
+    res.render('profile', context);
+
+    });
+
+
+// Login setup ==============================================
 router.get("/login", function (req, res) {
 
     var context = {
@@ -119,10 +177,11 @@ router.get("/login", function (req, res) {
 });
 
 
-router.post('/login', function (req, res) {
+router.post('/login', passport.authenticate('local-login', {
 
-        //password auth goes here
-});
+    successRedirect: '/',
+    failureRedirect: '/login'
+}));
 
 
 //should end session and serve up login form
@@ -136,8 +195,7 @@ router.get('/logout', function (req, res) {
 function isLoggedIn(req, res, next) {
 
     if (req.isAuthenticated())
-        return next();
-
+        return next(req);
     res.redirect("/login");
 }
 

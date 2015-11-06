@@ -5,7 +5,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
+
+
+
+//authentication database
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/test');
+
+//passport config
 var passport = require('passport');
+require('./config/passport.js')(passport);
 var session = require('express-session');
 
 var routes = require('./routes/index');
@@ -26,8 +35,11 @@ app.set('view engine', 'hbs');
 
 //login session config
 app.use(session({secret: "you're not my supervisor"}));
+
 app.use(passport.initialize());
+
 app.use(passport.session());
+
 
 
 // uncomment after placing your favicon in /public

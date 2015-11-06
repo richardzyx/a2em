@@ -16,7 +16,9 @@
     "request": "^2.65.0",
     "serve-favicon": "~2.3.0",
     "passport": "~0.3.0",
+    "passport-local": "1.0.0",
     "bcrypt": "~0.8.5",
-    "express-session": "1.12.1"
+    "express-session": "1.12.1",
+    "mongoose": "4.2.4"
   }
 }
