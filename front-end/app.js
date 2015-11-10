@@ -14,6 +14,8 @@ mongoose.connect('mongodb://localhost:27017/test');
 
 //passport config
 var passport = require('passport');
+
+//pass the "passport" variable into the function that the require function returns
 require('./config/passport.js')(passport);
 var session = require('express-session');
 
@@ -37,7 +39,6 @@ app.set('view engine', 'hbs');
 app.use(session({secret: "you're not my supervisor"}));
 
 app.use(passport.initialize());
-
 app.use(passport.session());
 
 

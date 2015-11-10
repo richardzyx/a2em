@@ -35,6 +35,7 @@ module.exports = function (passport) {
             if (!user)
                 done(null, false);
             // asynchronous password comparison
+            console.log(user);
             bcrypt.compare(password, user.password, function (err, res) {
 
                 if (!err) {
