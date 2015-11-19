@@ -4,16 +4,13 @@ var router = express.Router();
 //var _ = require('underscore');
 
 //Add your module here by require the file under api
-var getTest = require('./api/getTest');
-var email = require('./api/email');
+var send = require('./send');
 
 router.use('/', function(req, res, next) {
-      next();
+    next();
 });
 
 //Add your url to your module api
-router.use('/gettest', getTest);
-
-router.use('/email', email);
+router.use('/send', send);
 
 module.exports = router;
