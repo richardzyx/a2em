@@ -5,12 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
+var flash = require("connect-flash");
 
-
+//TODO Logger for j?
 
 //authentication database
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/test');
+
+var debugURL = 'mongodb://localhost:27017/test';
+//var URL = 'mongodb://45.55.233.181:27017/test';
+
+mongoose.connect(debugURL);
 
 //passport config
 var passport = require('passport');
@@ -40,7 +45,7 @@ app.use(session({secret: "you're not my supervisor"}));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(flash());
 
 
 // uncomment after placing your favicon in /public
@@ -53,8 +58,20 @@ app.use(cookieParser());
 //static files
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
+
+app.use(function (req, res, next) {
+
+    if (req.path == "/login" || req.isAuthenticated())
+        return next();
+
+    res.redirect("/login");
+});
+
+
 app.use('/', routes);
 app.use('/users', users);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

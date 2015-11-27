@@ -2,6 +2,7 @@
 
     <form class="form-signin" action="/login" method="post">
         <h2 class="form-signin-heading"> {{loginTitle}} </h2>
+        <div class="alert alert-danger">{{message}}</div>
         <label for="inputEmail" class="sr-only"> {{email}} </label>
         <input name="username" type="text" id="inputLogin" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>

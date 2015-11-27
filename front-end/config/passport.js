@@ -7,6 +7,8 @@ var bcrypt = require('bcrypt');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/users');
 
+var username = "a2empowerment";
+
 
 module.exports = function (passport) {
 
@@ -30,21 +32,23 @@ module.exports = function (passport) {
         //query for password with username.
         User.findOne({'username': username}, function(err, user) {
 
-            if (err)
-                done(err);
-            if (!user)
-                done(null, false);
+            //screening for non-alphanumeric characters. Denies attempted code injection.
+            if (!username.match(/^[a-zA-Z0-9@.]*$/) || !password.match(/^[a-zA-Z0-9]*$/))
+                done(null, false, req.flash("loginMessage", "One or more fields contained non-alphanumeric characters"));
+            else if (user == null)
+                done(null, false, req.flash("loginMessage", "Incorrect username or password"));
             // asynchronous password comparison
-            console.log(user);
-            bcrypt.compare(password, user.password, function (err, res) {
+            else {
+                bcrypt.compare(password, user.password, function (err, res) {
 
-                if (!err) {
-                    if (!res)
-                        done(null, false);
-                    else
-                        done(null, user);
-                }
-            });
+                    if (!err) {
+                        if (!res)
+                            done(null, false, req.flash("loginMessage", "Incorrect username or password"));
+                        else
+                            done(null, user);
+                    }
+                });
+            }
         });
     }));
 

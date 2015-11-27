@@ -19,6 +19,7 @@
     "passport-local": "1.0.0",
     "bcrypt": "~0.8.5",
     "express-session": "1.12.1",
-    "mongoose": "4.2.4"
+    "mongoose": "4.2.4",
+    "connect-flash": "~0.1.1"
   }
 }

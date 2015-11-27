@@ -11,10 +11,6 @@ var backendURL = '/api/get';
 
 router.get('/', function(req, res, next) {
 
-
-    //enforce session
-   //isLoggedIn(req, res, next);
-
 //set sticker values
     var donationsToday, donationsThisWeek, amountToday, amountThisWeek = 0;
     var week = [];
@@ -108,8 +104,6 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/profile/:id?', function (req, res) {
-    console.log(req.params);
-    //localhost:3000/profile/15
 
     //donation fields: amount, time, date, flag
     var address, zip, email, first_name, last_name;
@@ -167,10 +161,11 @@ router.get("/login", function (req, res) {
 
     var context = {
         layout: "login.hbs",
-        loginTitle: "A2Empowerment Login",
+        loginTitle: "A2Empowerment",
         email: "Admin email",
         remember: "Remember this user?",
-        signIn: "Sign In"
+        signIn: "Sign In",
+        message: req.flash("loginMessage")
     };
 
     res.render('login.hbs', context);
@@ -180,7 +175,8 @@ router.get("/login", function (req, res) {
 router.post('/login', passport.authenticate('local-login', {
 
     successRedirect: '/',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    failureFlash: true
 }));
 
 
@@ -190,14 +186,6 @@ router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/login');
 });
-
-
-function isLoggedIn(req, res, next) {
-
-    if (req.isAuthenticated())
-        return next();
-    res.redirect("/login");
-}
 
 module.exports = router;
 
