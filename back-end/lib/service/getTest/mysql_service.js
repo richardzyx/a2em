@@ -1,14 +1,13 @@
 /**
  * Created by root on 10/22/15.
  */
-
-//import the sql db
 var mysql_a2em = require('../../db/mysql_db').a2em;
 
-exports.query_allUsers = function(options){ //use the list of users that were passed in via post on '/query'
+
+exports.query_allUsers = function(options){
     return Promise.resolve().then(
         function onFulfilled(){
-            var sql = "select * from user_info where user_group !=?"; //select ALL from user_info in our db
+            var sql = "select * from user_info where user_group !=?";
             return new Promise(function(resolve,reject){
                 mysql_a2em.query(sql, options, function (err, results) {
                     if (err) {

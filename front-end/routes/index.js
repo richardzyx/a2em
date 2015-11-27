@@ -1,5 +1,8 @@
 var express = require('express');
+<<<<<<< HEAD
 var passport = require('passport');
+=======
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
 var router = express.Router();
 //var request = require('request');
 
@@ -11,7 +14,11 @@ var backendURL = '/api/get';
 
 router.get('/', function(req, res, next) {
 
+<<<<<<< HEAD
 //set sticker values
+=======
+    //set sticker values
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
     var donationsToday, donationsThisWeek, amountToday, amountThisWeek = 0;
     var week = [];
     if (debug) {
@@ -53,7 +60,10 @@ router.get('/', function(req, res, next) {
 
 
     } else {
+<<<<<<< HEAD
         //change backend url to specific query
+=======
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
         request(backendURL, function (error, response, body) {
           if (!error && response.statusCode == 200) {
             console.log(body); // Show the HTML for the Google homepage.
@@ -71,11 +81,18 @@ router.get('/', function(req, res, next) {
                 // my code follows up until };
                 for (var j = 0; j < 7; j++) {
                     if (body.donations[i].date == today - j) {
+<<<<<<< HEAD
                         week[j].amount += body.donations[i].date;
                     }
                         week[j].donations++;
                 }
             }
+=======
+                        week[j].amount += body.donations[i].date;                    }            
+                        week[j].donations++;
+                };
+            };
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
 
           } else {
             console.log('error');
@@ -86,7 +103,11 @@ router.get('/', function(req, res, next) {
     var today = new Date();
     for (var i = 0; i < week.length; i++) {
         week[i].day = today - 7 + i;
+<<<<<<< HEAD
     }
+=======
+    };
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
 
     var context = {
         layout: 'dashboard',
@@ -102,6 +123,7 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
+<<<<<<< HEAD
 
 router.get('/profile/:id?', function (req, res) {
 
@@ -157,10 +179,13 @@ router.get('/profile/:id?', function (req, res) {
 
 
 // Login setup ==============================================
+=======
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
 router.get("/login", function (req, res) {
 
     var context = {
         layout: "login.hbs",
+<<<<<<< HEAD
         loginTitle: "A2Empowerment",
         email: "Admin email",
         remember: "Remember this user?",
@@ -185,6 +210,15 @@ router.get('/logout', function (req, res) {
 
     req.logout();
     res.redirect('/login');
+=======
+        loginTitle: "A2Empowerment Login",
+        email: "Admin email",
+        remember: "Remember this user?",
+        signIn: "Sign In"
+    };
+    res.render('login.hbs', context);
+   // res.sendfile("../startbootstrap-sb-admin-1.0.3/login.html" /*{root: __dirname}*/);
+>>>>>>> 843ecd7fcc3f3864212cdd71781df03f063211f5
 });
 
 module.exports = router;
