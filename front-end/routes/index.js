@@ -115,6 +115,7 @@ router.get('/profile/:id?', function (req, res) {
         email = "bob@hello.com";
         first_name = "John";
         last_name = 'Smith';
+        amount = "12345";
 
         var donation1 = {};
         donation1.amount = 100;
@@ -148,7 +149,8 @@ router.get('/profile/:id?', function (req, res) {
         personZip: zip,
         personEmail: email,
         personName: fullname,
-        personDonations: donations
+        personDonations: donations,
+        personAmount: amount
 
     };
     res.render('profile', context);
@@ -169,12 +171,24 @@ router.get("/add", function(req, res) {
 
 //donations list
 router.get("/donations", function(req, res) {
+    //stuff here to calculate and build donations objects 
     var context={
         layout: 'donations',
         title: 'Donations List',
         pageTitle: 'Donations List'
     }
     res.render('donations', context);
+
+});
+
+//donors list
+router.get("/donors", function(req, res) {
+    var context={
+        layout: 'donors',
+        title: 'Donors List',
+        pageTitle: 'Donors List'
+    }
+    res.render('donors', context);
 
 });
 
