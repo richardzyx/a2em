@@ -156,6 +156,17 @@ router.get('/profile/:id?', function (req, res) {
     });
 
 
+// Add transaction
+router.get("/add", function(req, res) {
+    var context = {
+        layout: 'add',
+        title: "Add a transaction",
+        pageTitle: "Add a Transaction"
+    }
+    res.render('add', context);
+});
+
+
 // Login setup ==============================================
 router.get("/login", function (req, res) {
 

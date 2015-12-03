@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-lg-12">
+
+        <form role="form" class="col-xs-5" action="backend" method="post">
+            <div class="form-group">
+                <label>Name of the transaction</label>
+                <input name="name" type="text" class="form-control" placeholder="Name of transaction" aria-describedby="name-addon">
+            </div>
+
+            <div class="form-group">
+                <label>Amount of transaction ($) </label>
+                <input name="amount" type="text" class="form-control" placeholder="Amount" aria-describedby="amount-addon">
+            </div>
+
+            <div class="form-group">
+                <label>Date</label>
+                <input name="date" type="text" class="form-control" placeholder="MM/DD/YYYY" aria-describedby="date-addon">
+            </div>
+
+            <div class="form-group">
+                <label>Type of transaction</label>
+                <div class="radio">
+                    <label>
+
+                        <input id="incomeRadio" type="radio" value="income" name="type">
+                                            Income
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+
+                        <input id="incomeRadio" type="radio" value="expense" name="type">
+                                            Expense
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-default" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
