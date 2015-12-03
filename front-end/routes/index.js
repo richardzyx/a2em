@@ -167,6 +167,17 @@ router.get("/add", function(req, res) {
 });
 
 
+//donations list
+router.get("/donations", function(req, res) {
+    var context={
+        layout: 'donations',
+        title: 'Donations List',
+        pageTitle: 'Donations List'
+    }
+    res.render('donations', context);
+
+});
+
 // Login setup ==============================================
 router.get("/login", function (req, res) {
 
