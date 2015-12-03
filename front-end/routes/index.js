@@ -102,6 +102,16 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
+//New pages here ====================================
+router.get('/donors');
+
+router.get('/donations');
+
+router.get('/log');
+
+
+
+
 
 router.get('/profile/:id?', function (req, res) {
 
@@ -163,19 +173,31 @@ router.get("/login", function (req, res) {
         layout: "login.hbs",
         loginTitle: "A2Empowerment",
         email: "Admin email",
-        remember: "Remember this user?",
+        whichPartial: function() { return "loginBody"; },
+        signIn: "Sign In"
+    };
+
+    res.render('login.hbs', context);
+});
+
+router.get("/loginFail", function (req, res) {
+
+    var context = {
+        layout: "login.hbs",
+        loginTitle: "A2Empowerment",
+        email: "Admin email",
         signIn: "Sign In",
+        whichPartial: function() {return "loginFailBody";},
         message: req.flash("loginMessage")
     };
 
     res.render('login.hbs', context);
 });
 
-
 router.post('/login', passport.authenticate('local-login', {
 
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/loginFail',
     failureFlash: true
 }));
 
