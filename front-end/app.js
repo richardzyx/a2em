@@ -7,13 +7,10 @@ var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
 var flash = require("connect-flash");
 
-//TODO Logger for j?
-
 //authentication database
 var mongoose = require('mongoose');
 
 var debugURL = 'mongodb://localhost:27017/test';
-//var URL = 'mongodb://45.55.233.181:27017/test';
 
 mongoose.connect(debugURL);
 
@@ -47,7 +44,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -60,8 +56,8 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 
 
 app.use(function (req, res, next) {
-
-    if (req.path == "/login" || req.isAuthenticated())
+    // is there a smarter way to do this?
+    if (req.path.match(/\/login[Fail]*/g) || req.isAuthenticated())
         return next();
 
     res.redirect("/login");

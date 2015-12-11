@@ -9,6 +9,7 @@ var backendURL = '/api/get';
 /* GET home page. */
 
 
+
 router.get('/', function(req, res, next) {
 
 //set sticker values
@@ -102,16 +103,6 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
-//New pages here ====================================
-router.get('/donors');
-
-router.get('/donations');
-
-router.get('/log');
-
-
-
-
 
 router.get('/profile/:id?', function (req, res) {
 
@@ -163,6 +154,7 @@ router.get('/profile/:id?', function (req, res) {
         personAmount: amount
 
     };
+
     res.render('profile', context);
 
     });
@@ -174,7 +166,7 @@ router.get("/add", function(req, res) {
         layout: 'add',
         title: "Add a transaction",
         pageTitle: "Add a Transaction"
-    }
+    };
     res.render('add', context);
 });
 
@@ -182,22 +174,24 @@ router.get("/add", function(req, res) {
 //donations list
 router.get("/donations", function(req, res) {
     //stuff here to calculate and build donations objects 
-    var context={
+    var context = {
         layout: 'donations',
         title: 'Donations List',
         pageTitle: 'Donations List'
-    }
+    };
+
     res.render('donations', context);
 
 });
 
 //donors list
 router.get("/donors", function(req, res) {
-    var context={
+    var context = {
         layout: 'donors',
         title: 'Donors List',
         pageTitle: 'Donors List'
-    }
+    };
+
     res.render('donors', context);
 
 });
@@ -205,13 +199,15 @@ router.get("/donors", function(req, res) {
 // Login setup ==============================================
 router.get("/login", function (req, res) {
 
-    var context = {
-        layout: "login.hbs",
-        loginTitle: "A2Empowerment",
-        email: "Admin email",
-        whichPartial: function() { return "loginBody"; },
-        signIn: "Sign In"
-    };
+        var context = {
+            layout: "login.hbs",
+            loginTitle: "A2Empowerment",
+            email: "Admin email",
+            whichPartial: function () {
+                return "loginBody";
+            },
+            signIn: "Sign In"
+        };
 
     res.render('login.hbs', context);
 });
@@ -223,7 +219,9 @@ router.get("/loginFail", function (req, res) {
         loginTitle: "A2Empowerment",
         email: "Admin email",
         signIn: "Sign In",
-        whichPartial: function() {return "loginFailBody";},
+        whichPartial: function() {
+            return "loginFailBody";
+        },
         message: req.flash("loginMessage")
     };
 
