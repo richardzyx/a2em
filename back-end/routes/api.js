@@ -19,6 +19,7 @@ function pullPayPal() {
 //Add your module here by require the file under api
 var getTest = require('./api/getTest');
 var getDonation = require('./api/getDonation');
+var email = require('./api/email');
 
 router.use('/', function(req, res, next) {
       next();
@@ -27,5 +28,7 @@ router.use('/', function(req, res, next) {
 //Add your url to your module api
 router.use('/gettest', getTest);
 router.use('/getDonation', getDonation);
+
+router.use('/email', email);
 
 module.exports = router;

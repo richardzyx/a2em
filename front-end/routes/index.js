@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 //var request = require('request');
 
@@ -8,9 +9,10 @@ var backendURL = '/api/get';
 /* GET home page. */
 
 
+
 router.get('/', function(req, res, next) {
 
-    //set sticker values
+//set sticker values
     var donationsToday, donationsThisWeek, amountToday, amountThisWeek = 0;
     var week = [];
     if (debug) {
@@ -52,6 +54,7 @@ router.get('/', function(req, res, next) {
 
 
     } else {
+        //change backend url to specific query
         request(backendURL, function (error, response, body) {
           if (!error && response.statusCode == 200) {
             console.log(body); // Show the HTML for the Google homepage.
@@ -69,21 +72,22 @@ router.get('/', function(req, res, next) {
                 // my code follows up until };
                 for (var j = 0; j < 7; j++) {
                     if (body.donations[i].date == today - j) {
-                        week[j].amount += body.donations[i].date;                    }            
+                        week[j].amount += body.donations[i].date;
+                    }
                         week[j].donations++;
-                };
-            };
+                }
+            }
 
           } else {
             console.log('error');
-          }            
+          }
         });
     }
 
     var today = new Date();
     for (var i = 0; i < week.length; i++) {
         week[i].day = today - 7 + i;
-    };
+    }
 
     var context = {
         layout: 'dashboard',
@@ -99,17 +103,144 @@ router.get('/', function(req, res, next) {
     res.render('main', context);
 });
 
+
+router.get('/profile/:id?', function (req, res) {
+
+    //donation fields: amount, time, date, flag
+    var address, zip, email, first_name, last_name;
+    var donations = [];
+
+    if (debug) {
+        address = "This St., This place";
+        zip = "12345";
+        email = "bob@hello.com";
+        first_name = "John";
+        last_name = 'Smith';
+        amount = "12345";
+
+        var donation1 = {};
+        donation1.amount = 100;
+        var now = new Date();
+        donation1.date = now.toDateString();
+        donation1.time = now.toLocaleTimeString();
+        donation1.flag = "YO";
+
+        donations.push(donation1);
+    } else {
+        request(backendURL + 'person' + req.param.id, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var donation1 = {};
+                donation1.amount = body.amount;
+                donation1.time = body.time;
+                donation1.date = body.date;
+                donation.flag = body.flag;
+
+                donations.push(donation1);
+            }
+        });
+    }
+
+    var fullname = first_name + ' ' + last_name;
+
+    var context = {
+        layout: 'profile',
+        title: "Donor Profile",
+        pageTitle: fullname,
+        personAddress: address,
+        personZip: zip,
+        personEmail: email,
+        personName: fullname,
+        personDonations: donations,
+        personAmount: amount
+
+    };
+
+    res.render('profile', context);
+
+    });
+
+
+// Add transaction
+router.get("/add", function(req, res) {
+    var context = {
+        layout: 'add',
+        title: "Add a transaction",
+        pageTitle: "Add a Transaction"
+    };
+    res.render('add', context);
+});
+
+
+//donations list
+router.get("/donations", function(req, res) {
+    //stuff here to calculate and build donations objects 
+    var context = {
+        layout: 'donations',
+        title: 'Donations List',
+        pageTitle: 'Donations List'
+    };
+
+    res.render('donations', context);
+
+});
+
+//donors list
+router.get("/donors", function(req, res) {
+    var context = {
+        layout: 'donors',
+        title: 'Donors List',
+        pageTitle: 'Donors List'
+    };
+
+    res.render('donors', context);
+
+});
+
+// Login setup ==============================================
 router.get("/login", function (req, res) {
+
+        var context = {
+            layout: "login.hbs",
+            loginTitle: "A2Empowerment",
+            email: "Admin email",
+            whichPartial: function () {
+                return "loginBody";
+            },
+            signIn: "Sign In"
+        };
+
+    res.render('login.hbs', context);
+});
+
+router.get("/loginFail", function (req, res) {
 
     var context = {
         layout: "login.hbs",
-        loginTitle: "A2Empowerment Login",
+        loginTitle: "A2Empowerment",
         email: "Admin email",
-        remember: "Remember this user?",
-        signIn: "Sign In"
+        signIn: "Sign In",
+        whichPartial: function() {
+            return "loginFailBody";
+        },
+        message: req.flash("loginMessage")
     };
+
     res.render('login.hbs', context);
-   // res.sendfile("../startbootstrap-sb-admin-1.0.3/login.html" /*{root: __dirname}*/);
+});
+
+router.post('/login', passport.authenticate('local-login', {
+
+    successRedirect: '/',
+    failureRedirect: '/loginFail',
+    failureFlash: true
+}));
+
+
+//should end session and serve up login form
+router.get('/logout', function (req, res) {
+
+    req.logout();
+    res.redirect('/login');
 });
 
 module.exports = router;
