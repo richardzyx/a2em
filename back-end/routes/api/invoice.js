@@ -6,30 +6,38 @@ var express = require('express');
 var router = express.Router();
 var sendgrid = require('sendgrid')("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");
 
-
+//check for email contents to be passed in
 router.get('/', function(req, res, next) {
-    var contents = req;
+    var email = req.body;
 
-    if (!contents.to || !contents.from || !contents.subject || !contents.body) {
-        res.json({
-           message: "Error. Invalid parameters."
-        });
-    } else {
-        sendgrid.send({
-            to: contents["to"],
-            from: contents["from"],
-            subject: contents["subject"],
-            body: contents["body"]
-            //files: gotta figure this out....
-        }, function(err, json) {
-            if (err) {
-                return console.error(err);
-            }
-            if (!err) {
-                return "success";
-            }
-        });
-    }
+   Promise.resolve().then(
+       function onFulfilled() {
+           if (!req.body.to || !req.body.from || !req.body.subject || !req.body.content) {
+               res.json({
+                   result: 4,
+                   message: "Require two parameters"
+               });
+           } else {
+               //continue
+           }
+       }
+   ).then(
+       sendgrid.send({
+           to:email["to"],
+           from:email["from"],
+           subject:email["subject"],
+           body:email["body"]
+       }, function(err, json) {
+               if (err) {
+                   return console.error(err);
+               } else {
+                   return "success";
+               }
+          })
+    ).catch(function(err) {
+          res.json({
+              result: 99,
+              message: "Unknown Error"
+          });
+       });
 });
-
-module.exports = router;
