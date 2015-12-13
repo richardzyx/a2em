@@ -1,3 +1,5 @@
+//merge with db
+
 var ori_config=require("./dbconfig");
 
 var mysql, graylog;

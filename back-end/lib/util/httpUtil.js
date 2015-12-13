@@ -117,7 +117,7 @@ exports.sendHttpsAndParseJSON = function(method, url, headers, body, encoding) {
             });
             res.on('end', function () {
                 try{
-                    resolve(JSON.parse(chunk));
+                    resolve(chunk);
                 }
                 catch(err){
                     reject(err);
